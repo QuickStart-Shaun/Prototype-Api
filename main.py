@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseSettings
 
 origins = [
-    "https://shauns-stellar-site-4dbb3e.webflow.io/",
+    "https://shauns-stellar-site-4dbb3e.webflow.io",
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
