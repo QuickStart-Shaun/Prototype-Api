@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 import openai
 import os
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseSettings
+
+origins = [
+    "https://shauns-stellar-site-4dbb3e.webflow.io/",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
 
 
 class Settings(BaseSettings):
@@ -11,11 +19,17 @@ class Settings(BaseSettings):
 settings = Settings()
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Set up OpenAI API credentials
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-print("OPENAI_API_KEY =", os.getenv("OPENAI_API_KEY"))
-print(settings.test)
 
 
 @app.get("/")
