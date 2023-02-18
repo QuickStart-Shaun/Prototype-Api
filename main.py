@@ -16,7 +16,12 @@ class Settings(BaseSettings):
 settings = Settings()
 app = FastAPI()
 
-app.add_middleware(CORSMiddleware, allow_origins=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Set up OpenAI API credentials
