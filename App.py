@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import openai
-from dotenv import load_dotenv
 import os
 from pydantic import BaseSettings
 
@@ -16,7 +15,12 @@ app = FastAPI()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 print("OPENAI_API_KEY =", os.getenv("OPENAI_API_KEY"))
-print(settings)
+print(settings.test)
+
+
+@app.get("/")
+def index():
+    return {"test": "working"}
 
 
 @app.get("/generate_text")
