@@ -6,9 +6,6 @@ from pydantic import BaseSettings
 
 origins = [
     "https://shauns-stellar-site-4dbb3e.webflow.io",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
 ]
 
 
@@ -19,13 +16,7 @@ class Settings(BaseSettings):
 settings = Settings()
 app = FastAPI()
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 
 # Set up OpenAI API credentials
