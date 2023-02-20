@@ -34,8 +34,8 @@ def index():
 
 
 @app.get("/test")
-def test_return(prompt: str):
-    return {"test": prompt}
+def test_return(prompt: str, Prompt2: str):
+    return {"test": prompt + Prompt2}
 
 
 @app.get("/generate_text")
