@@ -33,6 +33,11 @@ def index():
     return {"test": "working"}
 
 
+@app.get("/test")
+def test_return(prompt: str):
+    return {"test": prompt}
+
+
 @app.get("/generate_text")
 async def generate_text(prompt: str):
     # Set up OpenAI API request parameters
