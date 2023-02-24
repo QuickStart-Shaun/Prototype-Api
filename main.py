@@ -72,6 +72,7 @@ async def generate_business_plan(Q1: str, Q2: str):
         temperature=temperature,
     )
     # Return generated text
+    print({"result": response.choices[0].text})
     return {"result": response.choices[0].text}
 
 
