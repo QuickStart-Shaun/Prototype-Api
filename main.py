@@ -52,7 +52,7 @@ def test_return(prompt: str, Prompt2: str):
 
 
 @app.get("/generate_business_plan")
-async def generate_text(Q1: str, Q2: str):
+async def generate_business_plan(Q1: str, Q2: str):
     list_qa = [
         {"question": "What do you sell", "answer": Q1},
         {"question": "Who are your customers", "answer": Q2},
@@ -72,7 +72,7 @@ async def generate_text(Q1: str, Q2: str):
         temperature=temperature,
     )
     # Return generated text
-    return response.choices[0].text
+    return {"result": response.choices[0].text}
 
 
 @app.get("/generate_text")
