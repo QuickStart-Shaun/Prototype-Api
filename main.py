@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Request
 import openai
 import os
 from fastapi.middleware.cors import CORSMiddleware
@@ -45,31 +45,35 @@ class Form(BaseModel):
 from pydantic import BaseModel
 
 
+# Set up OpenAI API credentials
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+
 class Item(BaseModel):
     data: str
 
 
-@app.post("/data")
-def add_eth_addr(item: Item):
-    return item
-
-
-# Set up OpenAI API credentials
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 from fastapi.encoders import jsonable_encoder
+
+
+@app.post("/test")
+async def check(request: Request):
+    formdata = await request.form()
+    data = []
+
+    for row in formdata:
+        print(row)
+    return {"working": "True"}
+
+
+@app.post("/data")
+def add_data(item: Item):
+    return item
 
 
 @app.get("/")
 def index():
     return {"test": "working"}
-
-
-@app.post("/test_post")
-def test_return(item):
-    print("testing post")
-    print(item)
-    return {"result": "nothing"}
 
 
 @app.get("/generate_business_plan")
