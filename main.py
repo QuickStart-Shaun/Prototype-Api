@@ -43,7 +43,7 @@ class Form(BaseModel):
 
 
 @app.post("/form")
-async def process_form(form_data: Form = Body(...)):
+async def process_form(form_data: Form = Body(..., embed=True)):
     # Validate the input data
     if not form_data.data:
         return {"error": "No form data provided"}
