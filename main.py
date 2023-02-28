@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 import openai
 import os
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,8 +38,26 @@ app.add_middleware(
 )
 
 
+class Form(BaseModel):
+    data: dict
+
+
+@app.post("/form")
+async def process_form(form_data: Form = Body(...)):
+    # Validate the input data
+    if not form_data.data:
+        return {"error": "No form data provided"}
+
+    # Process the input data
+    # ...
+
+    return {"success": True}
+
+
 # Set up OpenAI API credentials
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+from fastapi.encoders import jsonable_encoder
 
 
 @app.get("/")
