@@ -62,7 +62,7 @@ async def check(request: Request):
     data = []
     print(formdata)
     for row in formdata:
-        print(row)
+        print(dict(row))
     return {"working": "True"}
 
 
