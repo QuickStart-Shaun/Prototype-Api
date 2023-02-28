@@ -49,8 +49,9 @@ def index():
 
 @app.post("/test_post")
 def test_return(item):
+    print("testing post")
     print(item)
-    return {"result": item}
+    return {"result": "nothing"}
 
 
 @app.get("/generate_business_plan")
