@@ -50,24 +50,15 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 class Item(BaseModel):
-    data: str
+    data: dict
 
 
 from fastapi.encoders import jsonable_encoder
 
 
-@app.post("/test")
-async def check(request: Request):
-    formdata = await request.form()
-    data = []
-    print(formdata)
-    for row in formdata:
-        print(dict(row))
-    return {"working": "True"}
-
-
 @app.post("/data")
 def add_data(item: Item):
+    print(item)
     return item
 
 
