@@ -60,7 +60,7 @@ from fastapi.encoders import jsonable_encoder
 async def check(request: Request):
     formdata = await request.form()
     data = []
-
+    print(formdata)
     for row in formdata:
         print(row)
     return {"working": "True"}
