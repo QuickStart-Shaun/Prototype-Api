@@ -32,3 +32,4 @@ urllib3==1.26.14
 uvicorn==0.20.0
 yarg==0.1.9
 yarl==1.8.2
+python-multipart==0.0.6
