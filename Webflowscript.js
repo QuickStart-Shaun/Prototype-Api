@@ -1,68 +1,64 @@
+var Webflow = Webflow || [];
+Webflow.push(function() {  
+  // unbind webflow form handling (keep this if you only want to affect specific forms)
+  $(document).off('submit');
 
-  const addTodoButton = document.querySelector('[data-todo="add-todo"]')
-  const clearTodosButton = document.querySelector('[data-todo="clear-todos"]')
-  const empty = document.querySelector('[data-todo="empty"]')
-  const todo = document.querySelector('[data-todo="todo"]')
-  const todosParent = todo.parentNode
+  /* Any form on the page */
+  $('form').submit(async function(e) {
+    e.preventDefault();
 
-  let currentTodo = 0
-
-  const addTodo = async () => {
-    try {
-      currentTodo++
-      console.log("trying api");
-      const data = await fetch(
-        `https://demo-api-gs.herokuapp.com`, {
-          method: 'GET',
-          headers: {
-            'X-RapidAPI-Key': 'your-rapidapi-key',
-            'X-RapidAPI-Host': 'famous-quotes4.p.rapidapi.com',
-          },
-        })
-      const json = await data.json();
-      console.log(json);
-
-      const todos = [...document.querySelectorAll('[data-todo="todo"]')]
-      const newTodo = currentTodo === 1 ? todos[0] : todos[0].cloneNode(true)
-
-      const title = newTodo.querySelector('[data-todo="title"]')
-      const id = newTodo.querySelector('[data-todo="id"]')
-
-      title.innerText = `Title: ${json.title}`
-      id.innerText = `ID: ${json.id}`
-
-      if (currentTodo > 1) {
-        todosParent.appendChild(newTodo)
-      }
-      newTodo.style.display = 'flex'
-
-      const removeButton = newTodo.querySelector('[data-todo="remove"]')
-      removeButton.addEventListener('click', () => {
-        const todos = [...document.querySelectorAll('[data-todo="todo"]')]
-        if (todos.length === 1) {
-          currentTodo = 0
-          newTodo.style.display = 'none'
-        } else {
-          newTodo.parentNode.removeChild(newTodo)
-        }
-      })
-    } catch (err) {
-      console.error(`Error getting todo: ${err}`)
+    const $form = $(this); // The submitted form
+    const $submit = $('[type=submit]', $form); // Submit button of form
+    const buttonText = $submit.val(); // Original button text
+    const buttonWaitingText = $submit.attr('data-wait'); // Waiting button text value
+    const formMethod = $form.attr('method'); // Form method (where it submits to)
+    const formAction = $form.attr('action'); // Form action (GET/POST)
+    const formRedirect = $form.attr('data-redirect'); // Form redirect location
+    const formData = $form.serialize(); // Form data
+    const para = document.querySelector('[custom="para"]')
+    
+    console.log(formData)
+    // Set waiting text
+    if (buttonWaitingText) {
+      $submit.val(buttonWaitingText); 
     }
-  }
+    
+    try {
+      const response = await fetch(formAction+"?"+formData, {
+        method: formMethod,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+      console.log(response)
+      if (response.ok) {
+        const data = await response.json();
+        para.innerText = data.result
+        console.log(para.innerText)
 
-  addTodoButton.addEventListener('click', addTodo)
+        // If form redirect setting set, then use this and prevent any other actions
+        if (formRedirect) {
+          window.location = formRedirect;
+          return;
+        }
 
-  const clearTodos = () => {
-    currentTodo = 0
-    const todos = [...document.querySelectorAll('[data-todo="todo"]')]
-    todos.forEach((todo, index) => {
-      if (index === 0) {
-        todo.style.display = 'none'
+        $form
+          .hide() // optional hiding of form
+          .siblings('.w-form-done').show() // Show success
+          .siblings('.w-form-fail').hide(); // Hide failure
       } else {
-        todo.parentNode.removeChild(todo)
+        $form
+          .siblings('.w-form-done').hide() // Hide success
+          .siblings('.w-form-fail').show(); // show failure
       }
-    })
-  }
-
-  clearTodosButton.addEventListener('click', clearTodos);
+    } catch (error) {
+      console.error(error);
+      $form
+        .siblings('.w-form-done').hide() // Hide success
+        .siblings('.w-form-fail').show(); // show failure
+    } finally {
+      // Reset text
+      $submit.val(buttonText);
+    }
+  });
+});

@@ -3,6 +3,7 @@ import openai
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseSettings
+from pydantic import BaseModel
 
 
 def create_prompt(list_qa: list) -> str:
@@ -46,9 +47,10 @@ def index():
     return {"test": "working"}
 
 
-@app.get("/test")
-def test_return(prompt: str, Prompt2: str):
-    return {"test": prompt + Prompt2}
+@app.post("/test_post")
+def test_return(item):
+    print(item)
+    return {"result": item}
 
 
 @app.get("/generate_business_plan")
