@@ -42,16 +42,16 @@ class Form(BaseModel):
     data: dict
 
 
-@app.post("/form")
-async def process_form(form_data: Form = Body(..., embed=True)):
-    # Validate the input data
-    if not form_data.data:
-        return {"error": "No form data provided"}
+from pydantic import BaseModel
 
-    # Process the input data
-    # ...
 
-    return {"success": True}
+class Item(BaseModel):
+    data: str
+
+
+@app.post("/data")
+def add_eth_addr(item: Item):
+    return item
 
 
 # Set up OpenAI API credentials
