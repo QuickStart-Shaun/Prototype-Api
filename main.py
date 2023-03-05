@@ -59,7 +59,7 @@ from fastapi.encoders import jsonable_encoder
 @app.post("/data")
 def add_data(item: Item):
     print(item.data)
-    for question, answer in item.data.items:
+    for question, answer in item.data.items():
         formatted_question = question.replace("-", " ")
         formatted_question = formatted_question + "?"
         print(question)
