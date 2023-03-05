@@ -58,12 +58,12 @@ from fastapi.encoders import jsonable_encoder
 
 @app.post("/data")
 def add_data(item: Item):
-    print(item.data)
+    list_qa = []
     for question, answer in item.data.items():
         formatted_question = question.replace("-", " ")
         formatted_question = formatted_question + "?"
-        print(formatted_question)
-        print(answer)
+        list_qa.append({formatted_question: answer})
+
     return item
 
 
@@ -73,11 +73,12 @@ def index():
 
 
 @app.get("/generate_business_plan")
-async def generate_business_plan(Q1: str, Q2: str):
-    list_qa = [
-        {"question": "What do you sell", "answer": Q1},
-        {"question": "Who are your customers", "answer": Q2},
-    ]
+async def generate_business_plan(item: Item):
+    list_qa = []
+    for question, answer in item.data.items():
+        formatted_question = question.replace("-", " ")
+        formatted_question = formatted_question + "?"
+        list_qa.append({formatted_question: answer})
 
     # Set up OpenAI API request parameters
     model_engine = "text-davinci-002"
