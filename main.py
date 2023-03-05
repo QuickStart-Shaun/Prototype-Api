@@ -60,6 +60,8 @@ from fastapi.encoders import jsonable_encoder
 def add_data(item: Item):
     print(item.data)
     for question, answer in item.data.items:
+        formatted_question = question.replace("-", " ")
+        formatted_question = formatted_question + "?"
         print(question)
         print(answer)
     return item
