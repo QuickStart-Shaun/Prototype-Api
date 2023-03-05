@@ -62,7 +62,7 @@ def add_data(item: Item):
     for question, answer in item.data.items():
         formatted_question = question.replace("-", " ")
         formatted_question = formatted_question + "?"
-        print(question)
+        print(formatted_question)
         print(answer)
     return item
 
