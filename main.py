@@ -72,7 +72,7 @@ def index():
     return {"test": "working"}
 
 
-@app.get("/generate_business_plan")
+@app.post("/generate_business_plan")
 async def generate_business_plan(item: Item):
     list_qa = []
     for question, answer in item.data.items():
@@ -94,8 +94,7 @@ async def generate_business_plan(item: Item):
         temperature=temperature,
     )
     # Return generated text
-    print({"Q1": Q1})
-    print({"Q2": Q2})
+
     return {"result": response.choices[0].text}
 
 
