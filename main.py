@@ -62,7 +62,7 @@ def add_data(item: Item):
     for question, answer in item.data.items():
         formatted_question = question.replace("-", " ")
         formatted_question = formatted_question + "?"
-        list_qa.append({formatted_question: answer})
+        list_qa.append({"question": formatted_question, "answer": answer})
 
     return item
 
@@ -78,7 +78,7 @@ async def generate_business_plan(item: Item):
     for question, answer in item.data.items():
         formatted_question = question.replace("-", " ")
         formatted_question = formatted_question + "?"
-        list_qa.append({formatted_question: answer})
+        list_qa.append({"question": formatted_question, "answer": answer})
 
     # Set up OpenAI API request parameters
     model_engine = "text-davinci-002"
