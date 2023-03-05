@@ -59,6 +59,9 @@ from fastapi.encoders import jsonable_encoder
 @app.post("/data")
 def add_data(item: Item):
     print(item.data)
+    for question, answer in item.data.items:
+        print(question)
+        print(answer)
     return item
 
 
